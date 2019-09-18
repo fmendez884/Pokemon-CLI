@@ -183,6 +183,17 @@ class Battle < ActiveRecord::Base
 		end 
 	end 
 
+	def opponent_next_pokemon
+		alive_team = self.battle_state[:opponent][:currentTeam].select { |pokeball| pokeball[:alive] == true }
+		if alive_team != []
+			alive_team[0]
+			puts "#{opponent.name} is about to send out  #{alive_team[0][:pokemon].name}...."
+			# binding.pry
+		else 
+
+		end
+	end
+
 	def switch_prompt(next_pokemon)
 
 	end 

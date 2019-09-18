@@ -257,11 +257,34 @@ class CommandLineInterface
 				puts "returning to main menu"
 				main_menu
 			else
-				battle.switch_opponent_pokemon
+				opponent_switch(battle)
+				# battle.switch_opponent_pokemon
 				battle.clear_turn
 			end 
 		end 
 	end
+
+	def opponent_switch(battle)
+		prompt_user_switch(battle)
+		battle.switch_opponent_pokemon
+	end
+
+	def prompt_user_switch(battle)
+		alive_team = battle.battle_state[:opponent][:currentTeam].select { |pokeball| pokeball[:alive] == true }
+		if alive_team != []
+			alive_team[0]
+			puts "#{battle.opponent.name} is about to send out  #{alive_team[0][:pokemon].name}...."
+			$prompt.select("Switch Pokemon?") do |q|
+				q.choice 'Switch', -> {switch_pokemon(battle)}
+				q.choice 'Stay', -> {
+					#opponent_switch(battle.switch_opponent_pokemon)
+				}
+			end
+			# binding.pry
+		else 
+
+		end
+	end 
 
 	# def new_attack(battle)
 	# 	battle.speed_check
