@@ -337,8 +337,12 @@ class CommandLineInterface
 					end
 				end
 				menu.choice "Cancel", -> { 
-				if battle.currentUserPokemon[:alive] 
-					battle_main_loop(battle) 
+				if battle.currentUserPokemon[:alive]
+					if !battle.currentOpponentPokemon[:alive]
+						opponent_switch(battle)
+					else 
+						battle_main_loop(battle) 
+					end 
 				else 
 					puts "You must switch pokemon!" 
 					switch_pokemon(battle)
